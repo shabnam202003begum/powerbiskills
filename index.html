@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Finance Dashboard — Shabnam Begum | Power BI Project</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/shabnam202003begum/shabnam-analyst.com/main/shabnam-dp.jpeg"/>
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/shabnam202003begum/shabnam-analyst.com/main/shabnam-dp.jpeg"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -30,8 +32,9 @@ nav{
   padding:18px 60px;background:rgba(8,8,15,0.9);
   backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
 }
-.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);text-decoration:none;}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;}
 .nav-logo span{color:var(--gold);}
+.nav-photo{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);box-shadow:0 2px 12px rgba(232,184,75,0.3);}
 .nav-right{display:flex;align-items:center;gap:24px;}
 .nav-link{font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color .2s;}
 .nav-link:hover{color:var(--text);}
@@ -195,7 +198,10 @@ footer p{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);}
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="https://shabnam-analyst.com">Shabnam<span>.</span></a>
+  <a class="nav-logo" href="https://shabnam-analyst.com">
+    <img class="nav-photo" src="https://raw.githubusercontent.com/shabnam202003begum/shabnam-analyst.com/main/shabnam-dp.jpeg" alt="Shabnam Begum"/>
+    Shabnam<span>.</span>
+  </a>
   <div class="nav-right">
     <a class="nav-link" href="https://shabnam-analyst.com">Portfolio</a>
     <a class="nav-link" href="https://github.com/shabnam202003begum" target="_blank">GitHub</a>
