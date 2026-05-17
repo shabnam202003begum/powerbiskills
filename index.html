@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Finance Dashboard — Shabnam Begum | Power BI Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#08080f;--surface:#0f0f1a;--surface2:#161625;--border:#1e1e35;
+  --violet:#7b5ea7;--violet-light:#a07fd4;--gold:#e8b84b;--gold-dim:#c9963a;
+  --teal:#2dd4bf;--text:#f0eef8;--muted:#7a7890;
+  --card-glow:0 0 40px rgba(123,94,167,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(123,94,167,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(123,94,167,0.03) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0;
+}
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
+.orb1{width:500px;height:500px;background:rgba(123,94,167,0.12);top:-100px;right:-100px;}
+.orb2{width:400px;height:400px;background:rgba(45,212,191,0.06);bottom:-50px;left:-50px;}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 60px;background:rgba(8,8,15,0.9);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:24px;}
+.nav-link{font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color .2s;}
+.nav-link:hover{color:var(--text);}
+.nav-btn{padding:9px 20px;background:var(--violet);color:#fff;font-size:12px;font-weight:700;letter-spacing:0.05em;text-decoration:none;border-radius:3px;transition:all .2s;}
+.nav-btn:hover{background:var(--violet-light);transform:translateY(-1px);}
+
+.hero{padding:120px 60px 52px;position:relative;z-index:1;text-align:center;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 18px;
+  border:1px solid rgba(232,184,75,0.3);background:rgba(232,184,75,0.06);
+  border-radius:2px;font-size:11px;font-family:'DM Mono',monospace;
+  color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:28px;animation:fadeDown .6s ease both;
+}
+.live-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(40px,5.5vw,72px);line-height:1.05;font-weight:400;margin-bottom:16px;animation:fadeUp .7s .1s ease both;}
+h1 em{color:var(--violet-light);font-style:italic;}
+.hero-sub{font-size:17px;color:var(--muted);line-height:1.7;max-width:580px;margin:0 auto 40px;animation:fadeUp .7s .2s ease both;}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .3s ease both;}
+.btn-main{
+  display:inline-flex;align-items:center;gap:10px;padding:15px 32px;
+  background:linear-gradient(135deg,var(--violet),var(--violet-light));
+  color:#fff;font-size:14px;font-weight:700;letter-spacing:0.04em;
+  text-decoration:none;border-radius:3px;box-shadow:0 8px 32px rgba(123,94,167,0.35);transition:all .25s;
+}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(123,94,167,0.5);}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;padding:15px 32px;
+  border:1px solid var(--border);color:var(--muted);font-size:14px;font-weight:600;
+  text-decoration:none;border-radius:3px;transition:all .25s;background:var(--surface);
+}
+.btn-secondary:hover{border-color:var(--violet);color:var(--text);transform:translateY(-3px);}
+
+/* ── LIVE EMBED ── */
+.embed-section{position:relative;z-index:1;padding:0 60px 16px;animation:fadeUp .8s .4s ease both;}
+.embed-label{
+  text-align:center;margin-bottom:16px;
+  font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;
+}
+.embed-label span{color:var(--teal);}
+.embed-wrap{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;box-shadow:var(--card-glow),0 40px 100px rgba(0,0,0,0.5);
+}
+.browser-bar{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;
+  background:var(--surface2);border-bottom:1px solid var(--border);
+}
+.dot{width:10px;height:10px;border-radius:50%;}
+.dot-r{background:#ff5f57;}.dot-y{background:#febc2e;}.dot-g{background:#28c840;}
+.url-bar{
+  flex:1;margin-left:8px;padding:5px 14px;background:var(--bg);
+  border:1px solid var(--border);border-radius:4px;
+  font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+}
+.embed-frame-wrap{position:relative;width:100%;padding-bottom:58%;background:var(--bg);}
+.embed-frame-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.embed-loading{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;
+  background:var(--bg);z-index:2;pointer-events:none;transition:opacity .6s;
+}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--violet);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);}
+.fullscreen-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;background:var(--surface2);border-top:1px solid var(--border);
+}
+.fullscreen-bar p{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);}
+.fullscreen-link{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 16px;background:rgba(123,94,167,0.15);border:1px solid rgba(123,94,167,0.3);
+  border-radius:3px;font-size:11px;font-family:'DM Mono',monospace;
+  color:var(--violet-light);text-decoration:none;transition:all .2s;
+}
+.fullscreen-link:hover{background:rgba(123,94,167,0.25);transform:translateY(-1px);}
+
+/* ── STATS ── */
+.stats{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:56px;
+}
+.stat-block{background:var(--surface);padding:36px 24px;text-align:center;transition:background .2s;}
+.stat-block:hover{background:var(--surface2);}
+.stat-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--violet-light);line-height:1;margin-bottom:6px;}
+.stat-num span{font-size:24px;color:var(--gold);}
+.stat-desc{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;}
+
+/* ── FEATURES ── */
+.features{position:relative;z-index:1;padding:72px 60px;}
+.feat-header{text-align:center;margin-bottom:48px;}
+.feat-tag{display:inline-block;font-size:11px;font-family:'DM Mono',monospace;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;}
+.feat-header h2{font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,40px);font-weight:400;}
+.feat-header h2 em{color:var(--violet-light);font-style:italic;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.feat-card{
+  padding:28px;background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;transition:all .25s;position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--c1),var(--c2));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.feat-card:hover::before{transform:scaleX(1);}
+.feat-card:hover{transform:translateY(-4px);box-shadow:var(--card-glow);border-color:rgba(123,94,167,0.3);}
+.feat-card[data-color="violet"]{--c1:var(--violet);--c2:var(--violet-light);}
+.feat-card[data-color="gold"]{--c1:var(--gold-dim);--c2:var(--gold);}
+.feat-card[data-color="teal"]{--c1:#0d9488;--c2:var(--teal);}
+.feat-icon{font-size:26px;margin-bottom:14px;}
+.feat-title{font-size:15px;font-weight:700;margin-bottom:8px;}
+.feat-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* ── CTA ── */
+.cta{
+  position:relative;z-index:1;margin:0 60px 80px;padding:56px;
+  background:linear-gradient(135deg,var(--surface) 0%,rgba(123,94,167,0.08) 100%);
+  border:1px solid rgba(123,94,167,0.2);border-radius:8px;text-align:center;box-shadow:var(--card-glow);
+}
+.cta h2{font-family:'Instrument Serif',serif;font-size:clamp(24px,3vw,40px);font-weight:400;margin-bottom:14px;}
+.cta h2 em{color:var(--violet-light);font-style:italic;}
+.cta p{font-size:15px;color:var(--muted);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto;}
+.cta-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+footer{
+  position:relative;z-index:1;padding:24px 60px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;background:var(--surface);
+}
+footer p{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);}
+.footer-logo{font-weight:800;font-size:15px;}
+.footer-logo span{color:var(--gold);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}
+  .hero{padding:100px 24px 48px;}
+  .embed-section{padding:0 24px 16px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .features{padding:56px 24px;}
+  .features-grid{grid-template-columns:1fr 1fr;}
+  .cta{margin:0 24px 60px;padding:36px 24px;}
+  footer{padding:20px 24px;flex-direction:column;gap:8px;text-align:center;}
+}
+@media(max-width:600px){
+  .features-grid{grid-template-columns:1fr;}
+  .nav-right .nav-link{display:none;}
+  .embed-frame-wrap{padding-bottom:80%;}
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://shabnam-analyst.com">Shabnam<span>.</span></a>
+  <div class="nav-right">
+    <a class="nav-link" href="https://shabnam-analyst.com">Portfolio</a>
+    <a class="nav-link" href="https://github.com/shabnam202003begum" target="_blank">GitHub</a>
+    <a class="nav-btn" href="https://app.powerbi.com/view?r=eyJrIjoiY2IwYjZjN2ItYWFmMi00ZTAzLTg0NTUtNDViZDUxM2M5ZWZmIiwidCI6Ijc2N2YxZWRhLTZlNzYtNDIxMC1hZGMwLTM2M2YxZjNkZjk4MyJ9" target="_blank">Full Screen ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <div class="live-dot"></div>
+    Live Power BI Report · Finance Analytics · FY 2013–2014
+  </div>
+  <h1>Financial Summary<br/><em>Dashboard</em></h1>
+  <p class="hero-sub">An interactive finance report built in Power BI — explore revenue, profit, COGS and units sold across 5 countries, 5 segments and 6 products. Fully interactive below.</p>
+  <div class="hero-btns">
+    <a class="btn-main" href="https://app.powerbi.com/view?r=eyJrIjoiY2IwYjZjN2ItYWFmMi00ZTAzLTg0NTUtNDViZDUxM2M5ZWZmIiwidCI6Ijc2N2YxZWRhLTZlNzYtNDIxMC1hZGMwLTM2M2YxZjNkZjk4MyJ9" target="_blank">⚡ Open Full Screen →</a>
+    <a class="btn-secondary" href="https://shabnam-analyst.com">← Back to Portfolio</a>
+  </div>
+</section>
+
+<!-- LIVE EMBED -->
+<div class="embed-section">
+  <div class="embed-label">● <span>Live interactive report</span> — use slicers and navigate pages directly below</div>
+  <div class="embed-wrap">
+    <div class="browser-bar">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="url-bar">🔒 app.powerbi.com · Financial Summary · Shabnam Begum · Power BI</div>
+    </div>
+    <div class="embed-frame-wrap">
+      <div class="embed-loading" id="loader">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading your Power BI dashboard…</div>
+      </div>
+      <iframe
+        src="https://app.powerbi.com/view?r=eyJrIjoiY2IwYjZjN2ItYWFmMi00ZTAzLTg0NTUtNDViZDUxM2M5ZWZmIiwidCI6Ijc2N2YxZWRhLTZlNzYtNDIxMC1hZGMwLTM2M2YxZjNkZjk4MyJ9"
+        title="Finance Dashboard — Shabnam Begum"
+        allowfullscreen="true"
+        onload="document.getElementById('loader').style.opacity='0';setTimeout(()=>{document.getElementById('loader').style.display='none'},600)">
+      </iframe>
+    </div>
+    <div class="fullscreen-bar">
+      <p>💡 Tip: Click any chart to cross-filter · Use slicers to filter by Year, Segment or Country</p>
+      <a class="fullscreen-link" href="https://app.powerbi.com/view?r=eyJrIjoiY2IwYjZjN2ItYWFmMi00ZTAzLTg0NTUtNDViZDUxM2M5ZWZmIiwidCI6Ijc2N2YxZWRhLTZlNzYtNDIxMC1hZGMwLTM2M2YxZjNkZjk4MyJ9" target="_blank">⤢ Open full screen</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-block"><div class="stat-num">$118<span>M</span></div><div class="stat-desc">Total Revenue</div></div>
+  <div class="stat-block"><div class="stat-num">$16.9<span>M</span></div><div class="stat-desc">Net Profit</div></div>
+  <div class="stat-block"><div class="stat-num">1.13<span>M</span></div><div class="stat-desc">Units Sold</div></div>
+  <div class="stat-block"><div class="stat-num">14<span>+</span></div><div class="stat-desc">Report Pages</div></div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="feat-header">
+    <div class="feat-tag">What's Inside</div>
+    <h2>Built with <em>precision</em> in Power BI</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card" data-color="violet">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title">KPI Cards</div>
+      <div class="feat-desc">4 key metrics — Total Revenue ($118.73M), Net Profit ($16.89M), Total COGS ($101.83M) and Units Sold (1.13M) — all powered by DAX measures.</div>
+    </div>
+    <div class="feat-card" data-color="gold">
+      <div class="feat-icon">🔽</div>
+      <div class="feat-title">Interactive Slicers</div>
+      <div class="feat-desc">Filter the entire report by Year, Segment, Country and Product. All visuals cross-filter instantly when you click any element.</div>
+    </div>
+    <div class="feat-card" data-color="teal">
+      <div class="feat-icon">📈</div>
+      <div class="feat-title">Profit Trend Charts</div>
+      <div class="feat-desc">Monthly profit line charts across FY 2013–2014 revealing seasonal patterns and peak performance months.</div>
+    </div>
+    <div class="feat-card" data-color="violet">
+      <div class="feat-icon">🍩</div>
+      <div class="feat-title">Segment Analysis</div>
+      <div class="feat-desc">Donut and pie charts breaking down revenue by Government, Small Business, Enterprise, Midmarket and Channel Partners.</div>
+    </div>
+    <div class="feat-card" data-color="gold">
+      <div class="feat-icon">🌍</div>
+      <div class="feat-title">Country-Level View</div>
+      <div class="feat-desc">Compare profit and revenue across Canada, France, Germany, Mexico and USA with horizontal bar charts.</div>
+    </div>
+    <div class="feat-card" data-color="teal">
+      <div class="feat-icon">🗂️</div>
+      <div class="feat-title">14-Page Navigation</div>
+      <div class="feat-desc">Full sidebar navigation — Home, Sales, Profit, Unit Sold, COGS plus quarterly Q1–Q8 breakdown pages.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>Want to see <em>more projects?</em></h2>
+  <p>Visit my portfolio to explore all my analytics work — SQL, Excel, Tableau and more Power BI dashboards.</p>
+  <div class="cta-links">
+    <a class="btn-main" href="https://shabnam-analyst.com">Visit Full Portfolio →</a>
+    <a class="btn-secondary" href="https://github.com/shabnam202003begum" target="_blank">GitHub Profile ↗</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Shabnam<span>.</span></div>
+  <p>Power BI Finance Dashboard · FY 2013–2014 · Shabnam Begum</p>
+  <p><a href="https://shabnam-analyst.com" style="color:var(--muted);text-decoration:none;">shabnam-analyst.com</a></p>
+</footer>
+
+</body>
+</html>
